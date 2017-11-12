@@ -22,6 +22,8 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'is_admin' => false,
+        //将生成的假用户和第一位用户都设为已激活状态
+        'activated'=>true,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'created_at' => $date_time,
