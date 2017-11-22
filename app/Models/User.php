@@ -67,4 +67,41 @@ class User extends Authenticatable
         return $this->statuses()
                     ->orderBy('created_at','desc');
     }
+    /**
+    *一个用户（粉丝）能够关注多个人，而被关注者能够拥有多个粉丝
+    *$user->followers()获取粉丝列表
+    *$user->followings()获取关注列表
+    */
+    public function followers()
+    {
+        return $this->belongsToMany(User::Class, 'followers', 'user_id', 'follower_id');
+    }
+
+    public function followings()
+    {
+        return $this->belongsToMany(User::Class,'followers', 'follower_id', 'user_id');
+    }
+
+    //关注他人
+    public function follow($user_ids)
+    {
+        if(!is_array($user_ids)){
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->sync($user_ids,false);
+    }
+    //取消关注
+    public function unfollow($user_ids)
+    {
+        if(!is_array($user_ids)){
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    //是否关注了此人
+    public function isFollowing($user_ids)
+    {
+        return $this->followings()->contains($user_ids);
+    }
 }
