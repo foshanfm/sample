@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /**
+        * Carbon 是 PHP DateTime 的一个简单扩展,
+        * 设置成为中文时间
+        */
+        Carbon::setLocale('zh');
     }
 
     /**
